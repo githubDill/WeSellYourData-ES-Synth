@@ -22,7 +22,7 @@ showing that all deadlines are met under worst-case conditions
 ## Total CPU Utilisation
 
 
-
+Can this be seen
 ## Shared Data Structures & Synchronicity
 
 state all shared variables
@@ -85,3 +85,6 @@ A --> C(Round Rect)
 B --> D{Rhombus}
 C --> D
 ```
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbNDkzNDQ0OTQ0XX0=
+-->
