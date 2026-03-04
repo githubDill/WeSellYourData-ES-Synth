@@ -55,14 +55,14 @@ QueueHandle_t msgInQ;
 struct {
 std::bitset<32> inputs; 
 uint8_t currentNote = 255; // index of currently active note (0..11) or 255 for none
-uint8_t RX_Message[8]={0};
+
 SemaphoreHandle_t mutex;  
 } sysState;
 
 
 // audio phase accumulator (used in ISR or loop if you prefer)
 volatile uint32_t phaseAcc = 0;
-
+uint8_t RX_Message[8]={0};
 
 //-----------------------------------------------------------------------FUNCTIONS----------------------------------------------------------
 //-------------------KNOB CLASS DEFINITION------------------------
@@ -177,14 +177,8 @@ void CAN_RX_ISR (void) {
 
 //-------------------CAN------------------------
 void decodeTask (void * pvParameters){
-  uint8_t localRX_Message[8]={0};
   while(1){
-    
-    xQueueReceive(msgInQ, localRX_Message, portMAX_DELAY);
-
-    xSemaphoreTake(sysState.mutex, portMAX_DELAY);
-    memcpy(sysState.RX_Message, localRX_Message, 8);
-    xSemaphoreGive(sysState.mutex);
+    xQueueReceive(msgInQ, RX_Message, portMAX_DELAY);
   }
 }
 
@@ -241,7 +235,7 @@ void scanKeysTask(void * pvParameters) {
     // Determine which note is active
     uint8_t note = 255;
     uint8_t octave = 4; // default octave
-    uint8_t press = 'R';
+
     // consider only the lowest 12 bits corresponding to the 12 keys
     xSemaphoreTake(sysState.mutex, portMAX_DELAY);
     uint32_t newKeys = (~sysState.inputs.to_ulong()) & 0xFFF;
@@ -258,7 +252,7 @@ void scanKeysTask(void * pvParameters) {
           // this key changed state
           bool pressed = (newKeys & (1u << k)); // active low: 0 means pressed
           TX_Message[0] = pressed ? 'P' : 'R';
-          TX_Message[1] = 6;   // CHANGE OCTAVE HERE
+          TX_Message[1] = 2;   // CHANGE OCTAVE HERE
           TX_Message[2] = k;   // note number 0-11
           CAN_TX(0x123, TX_Message);
           }
@@ -288,20 +282,15 @@ void scanKeysTask(void * pvParameters) {
     */
 
     // --------------------SOUND GENERATION USING CAN RX-----------------
-    uint8_t localRX_Message[8] = {0};
-    xSemaphoreTake(sysState.mutex, portMAX_DELAY);
-    note = sysState.RX_Message[2];
-    octave = sysState.RX_Message[1];
-    press = sysState.RX_Message[0];
-    xSemaphoreGive(sysState.mutex);
-
+    note = RX_Message[2];
+    octave = RX_Message[1];
     int8_t octaveOffset = octave - 4;
-    if(press =='P' && note < 12){
+    if(RX_Message[0]=='P' && note < 12){
         
       uint32_t step = (octaveOffset >= 0) ? (stepSizes[note] << octaveOffset) 
                                           : (stepSizes[note] >> -octaveOffset);
       currentStepSize.store(step);
-    } else if (press =='R' && note < 12){
+    } else if (RX_Message[0]=='R' && note < 12){
         currentStepSize.store(0);
     }
 
@@ -375,16 +364,10 @@ void displayUpdateTask(void * pvParameters) {
   u8g2.drawBox(71, 15, knob3Val * 2, 5);
 
   u8g2.setCursor(80,30);
-  uint8_t localRX_Message[8] = {0};
-  xSemaphoreTake(sysState.mutex, portMAX_DELAY);
-  memcpy(localRX_Message, sysState.RX_Message, 8);
-  xSemaphoreGive(sysState.mutex);
-
-  // then use localRX_Message for display
-  u8g2.print((char) localRX_Message[0]);
-  u8g2.print(localRX_Message[1]);
-  u8g2.print(localRX_Message[2]);
-    
+  u8g2.print((char) RX_Message[0]);
+  u8g2.print(RX_Message[1]);
+  u8g2.print(RX_Message[2]);
+  
   u8g2.sendBuffer();          // transfer internal memory to the display
     
 
