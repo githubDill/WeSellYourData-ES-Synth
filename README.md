@@ -9,8 +9,9 @@ Our added feature to the synthesiser board is polyphony.
 
 
 ## Task Implementation
+**Assumptions made**
+What we assumed to get these intervals and times
 
-theoretical minimum initiation interval (including assumptions used) and measured maximum execution time of each task
 
 |       Task         |Minimum Theroetical Initiation Interval $\tau_{min}$                          |Maximum Execution Time $t_{max}$                  |
 |----------------|-------------------------------|-----------------------------|
@@ -27,7 +28,8 @@ theoretical minimum initiation interval (including assumptions used) and measure
 |SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|y|n|
 
 ## Total CPU Utilisation
-[TODO: Obtain this report from freeRTOS](https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/08-Run-time-statistics)
+$\color{red}{\text{TODO: Obtain this report from freeRTOS}}$
+[here](https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/08-Run-time-statistics)
 
 |       Task         |Abs Time       | % Time                  |
 |----------------|-------------------------------|-----------------------------|
@@ -36,9 +38,16 @@ theoretical minimum initiation interval (including assumptions used) and measure
 |SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
 ## Shared Data Structures & Synchronicity
 
-$\color{red}{\text{Make it extremely clear with comments on firmware that we have used atomic access for thread-safe synchronisation, the clear comments will net us marks }}$
+$\color{red}{\text{TODO:Make it extremely clear with comments on firmware that we have used atomic access for thread-safe synchronisation, the clear comments will net us marks }}$
 state all shared variables
-How have we guaranteed safe access to shared variables: atomicity, mutexes, 
+
+
+|       Variable |Safe-access method used      |                
+|----------------|-------------------------------|
+|pahse_acumulator|atomic access          |
+|CurrentNote|mutex            |
+|SampleISR|`-- is en-dash, --- is em-dash`|
+
 There should be no race conditions .
 
 
@@ -58,43 +67,10 @@ id1-.->id4
 id2-->id4
 id3-.->id4
 ```
-# How to write in markdown
-
-*Italic*
-**Bold**
-> How to do this
-
-Table example:
-
-
-
-
-## KaTeX
-
-You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
-
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
-
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
-
-
-## UML diagrams
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
+## Stack allocation to tasks
+$\color{red}{\text{TODO:Find stack allocated to each task }}$
+|       Task         |Stack Allocated      |              
+|----------------|-------------------------------|
+|ScanKeys|`'Isn't this fun?'`            |
+|UpdateDisplay|`"Isn't this fun?"`            |
+|SampleISR|`-- is en-dash, --- is em-dash`|
