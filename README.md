@@ -5,7 +5,7 @@ This is **WeSellYourData**'s report for Embedded Systems.
 
 ## Basic Overview
 
-Our added feature to the synthesiser board is polyphony.
+Our added feature to the synthesiser board is 12-note polyphony (can play 12 notes simulatenously).
 
 
 ## Task Implementation
