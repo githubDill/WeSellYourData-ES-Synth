@@ -129,5 +129,6 @@ id3-.->id4
 |DisplayUpdate|112      |180   |
 |Decode|55|128|
 |CAN_TX|61|128|
+
 To start with all stack sizes were set to 256 and then stack sizes for each task were checked individually.
 With the initial stack of 256, we looked at how much stack was remaining to get an idea of how much stack was used in run-time. 
