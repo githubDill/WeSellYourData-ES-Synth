@@ -1,3 +1,4 @@
+
 ﻿# Synth Project
 
 This is **WeSellYourData**'s report for Embedded Systems.
@@ -5,31 +6,84 @@ This is **WeSellYourData**'s report for Embedded Systems.
 
 ## Basic Overview
 
-Our added feature to the synthesiser board is 12-note polyphony (can play 12 notes simulatenously).
+Our added feature to the synthesiser board is 24-note polyphony. Our firmware improves how smooth notes sound by taking the sawtooth wave and converting it into a triangular wave. Switching between sawtooth and triangle wave can be easily configured.
 
 
-## Task Implementation
-**Assumptions made**
+## Our Definitions of Worst Case Situations
+
+***Scankeys***
+
+ -   All 12 keys pressed simultaneously
+    
+-   knob rotating
+    
+-   12 CAN messages queued
+    
+-   Full mutex locking/unlocking
+    
+-   All bitmask calculations for polyphony
+
+***DisplayUpdate***
+-   Maximum values for all displayed data
+
+-   key12 = 0xFFF (3 hex characters to render)
+    
+-   selectedKey = 999 (3 digits)
+    
+-   vol = 8, lMask = 0xFFF, rMask = 0xFFF
+    
+-   CAN message = "P255255" (longest possible string)
+    
+-   Full U8g2 display buffer clear, font loading, and rendering
+    
+-   All text printed at maximum length
+    
+-   SendBuffer to push entire frame to OLED
+
+***Decode***
+-   Queue pre-filled with messages (xQueueReceive executes but doesn't block)
+    
+-   Message type = 'P' (requires full octave shift calculation vs 'R')
+    
+-   Octave = 7 (shift by +3 from base, forces maximum shift operations)
+    
+-   Note = 11 (highest note index, ensures all code paths)
+    
+-   xQueueReceive operation (fetches message from queue)
+    
+-   Mutex lock/unlock to copy 8-byte message
+    
+-   Calculate octave shift: freq << 3 (multiply by 8)
+    
+-   Atomic write of octave-shifted frequency
+    
+-   Atomic update of remote active mask
+
+***CAN_TX***
+-   Queue pre-filled with messages (xQueueReceive executes but doesn't block)
+    
+-   Semaphore pre-filled with permits (xSemaphoreTake executes but doesn't block)
+    
+-   Message ready: 'P', octave 4, note 11
+    
+-   Full CAN_TX() hardware transmission
+    
+-   CAN peripheral writes to registers, formats message, transmits bits over bus
+    
+-   Waits for CAN acknowledgment from other nodes
 What we assumed to get these intervals and times
 
-
-|       Task         |Minimum Theroetical Initiation Interval $\tau_{min}$                          |Maximum Execution Time $t_{max}$                  |
-|----------------|-------------------------------|-----------------------------|
-|ScanKeys|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|UpdateDisplay|`"Isn't this fun?"`            |"Isn't this fun?"            |
-|SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
 ## Critical Instant Analysis
 
 
-|       Task         |Initiation Interval $\tau$                          |Execution Time $t$                 |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|
+|       Task         |Minimum Theroetical Initiation Interval $\tau_{min}$                          |Maximum Execution Time $t_{max}$            |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|
 |----------------|-------------------------------|-----------------------------|--------|-|
 |ScanKeys|`'Isn't this fun?'`            |'Isn't this fun?'            |y|n|
 |UpdateDisplay|`"Isn't this fun?"`            |"Isn't this fun?"            |y|n|
 |SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|y|n|
 
 ## Total CPU Utilisation
-$\color{red}{\text{TODO: Obtain this report from freeRTOS}}$
-[here](https://www.freertos.org/Documentation/02-Kernel/02-Kernel-features/08-Run-time-statistics)
+
 
 |       Task         |Abs Time       | % Time                  |
 |----------------|-------------------------------|-----------------------------|
@@ -67,10 +121,13 @@ id1-.->id4
 id2-->id4
 id3-.->id4
 ```
-## Stack allocation to tasks
-$\color{red}{\text{TODO:Find stack allocated to each task }}$
-|       Task         |Stack Allocated      |              
-|----------------|-------------------------------|
-|ScanKeys|`'Isn't this fun?'`            |
-|UpdateDisplay|`"Isn't this fun?"`            |
-|SampleISR|`-- is en-dash, --- is em-dash`|
+## Stack Allocation
+
+|       Task         |Stack Allocated Under Normal Operation    |     Stack Allocated With Safety Margin    |          
+|----------------|-------------------------|---------------|
+|ScanKeys|60         |128|
+|DisplayUpdate|112      |180   |
+|Decode|55|128|
+|CAN_TX|61|128|
+To start with all stack sizes were set to 256 and then stack sizes for each task were checked individually.
+With the initial stack of 256, we looked at how much stack was remaining to get an idea of how much stack was used in run-time. 
