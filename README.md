@@ -84,6 +84,8 @@ What we assumed to get these intervals and times
 |CAN_TX   |80ms        |235.5µs||||
 |SampleISR   |0.04545ms    |31.71µs|||
 
+Total latency is less than the initation interval of "lowest priority task" so the critical instanst analysis passes. 
+
 ## Total CPU Utilisation
 
 
