@@ -78,18 +78,23 @@ What we assumed to get these intervals and times
 
 |       Task         |Minimum Theroetical Initiation Interval $\tau_{min}$                          |Maximum Execution Time $t_{max}$            |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|
 |----------------|-------------------------------|-----------------------------|--------|-|
-|ScanKeys|`'Isn't this fun?'`            |'Isn't this fun?'            |y|n|
-|UpdateDisplay|`"Isn't this fun?"`            |"Isn't this fun?"            |y|n|
-|SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|y|n|
+|ScanKeys       |20ms          | 57.3µs|||
+|UpdateDisplay     |100ms             |18.05ms|||
+|Decode     |2.8ms           |15µs|||
+|CAN_TX   |80ms        |235.5µs|||
+|SampleISR   |0.04545ms    |31.71µs|||
 
 ## Total CPU Utilisation
 
 
-|       Task         |Abs Time       | % Time                  |
-|----------------|-------------------------------|-----------------------------|
-|ScanKeys|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|UpdateDisplay|`"Isn't this fun?"`            |"Isn't this fun?"            |
-|SampleISR|`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
+|       Task         | % Time                  |
+|----------------|-----------------------------|
+|ScanKeys       |0.29           |
+|UpdateDisplay     |18.05             |
+|Decode     |2.14             |
+|CAN_TX   |1.18         |
+|SampleISR   |69.8     |
+
 ## Shared Data Structures & Synchronicity
 
 $\color{red}{\text{TODO:Make it extremely clear with comments on firmware that we have used atomic access for thread-safe synchronisation, the clear comments will net us marks }}$
