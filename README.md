@@ -76,12 +76,12 @@ What we assumed to get these intervals and times
 ## Critical Instant Analysis
 
 
-|       Task         |Minimum Theroetical Initiation Interval $\tau_{min}$                          |Maximum Execution Time $t_{max}$            |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|
-|----------------|-------------------------------|-----------------------------|--------|-|
-|ScanKeys       |20ms          | 57.3µs|||
-|UpdateDisplay     |100ms             |18.05ms|||
-|Decode     |2.8ms           |15µs|||
-|CAN_TX   |80ms        |235.5µs|||
+|       Task         |Minimum Theroetical Initiation Interval $\tau_{i}$                          |Maximum Execution Time $T_{i}$            |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|$\lceil\frac{\tau_n}{\tau_i}\rceil T_{i}$|
+|----------------|-------------------------------|-----------------------------|--------|-|-|
+|ScanKeys       |20ms          | 57.3µs||||
+|UpdateDisplay     |100ms             |18.05ms||||
+|Decode     |2.8ms           |15µs||||
+|CAN_TX   |80ms        |235.5µs||||
 |SampleISR   |0.04545ms    |31.71µs|||
 
 ## Total CPU Utilisation
