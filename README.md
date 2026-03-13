@@ -150,7 +150,7 @@ There should be no race conditions .
 
 ## Deadlock Analysis
 
-![image alt](DeadlockDiagram.drawio.pdf)
+![image alt](deadlockdiagram.drawio.png)
 
 Analysis of code to show if  a deadlock situation is possible
 This could be a task indefinitely waiting on a mutex
