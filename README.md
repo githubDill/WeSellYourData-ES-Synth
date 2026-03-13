@@ -78,11 +78,11 @@ What we assumed to get these intervals and times
 
 |       Task         |Minimum Theroetical Initiation Interval $\tau_{i}$                          |Maximum Execution Time $T_{i}$            |RMS Priority |$\lceil\frac{\tau_n}{\tau_i}\rceil$|$\lceil\frac{\tau_n}{\tau_i}\rceil T_{i}$|
 |----------------|-------------------------------|-----------------------------|--------|-|-|
-|ScanKeys       |20ms          | 57.3µs||||
-|UpdateDisplay     |100ms             |18.05ms||||
-|Decode     |2.8ms           |15µs||||
-|CAN_TX   |80ms        |235.5µs||||
-|SampleISR   |0.04545ms    |31.71µs|||
+|ScanKeys       |20ms          | 57.3µs|3|||
+|UpdateDisplay     |100ms             |18.05ms|1|||
+|Decode     |2.8ms           |15µs|2|||
+|CAN_TX   |80ms        |235.5µs|2|||
+|SampleISR   |0.04545ms    |31.71µs|High||
 
 Total latency is less than the initation interval of "lowest priority task" so the critical instanst analysis passes. 
 
@@ -105,9 +105,13 @@ state all shared variables
 
 |       Variable |Safe-access method used      |                
 |----------------|-------------------------------|
-|pahse_acumulator|atomic access          |
-|CurrentNote|mutex            |
-|SampleISR|`-- is en-dash, --- is em-dash`|
+|inputs (32-bit)|mutex         |
+|knob3Rotation|atomic          |
+|rxMSG| mutex|
+|localMask| atomic|
+|remoteMask| atomic|
+|remoteFreqs| atomic|
+
 
 There should be no race conditions .
 
