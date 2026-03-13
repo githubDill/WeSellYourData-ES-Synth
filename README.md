@@ -4,9 +4,13 @@
 This is **WeSellYourData**'s report for Embedded Systems.
 
 
-## Basic Overview
+## Basic Overview 
 
 Our added feature to the synthesiser board is 24-note polyphony. Our firmware improves how smooth notes sound by taking the sawtooth wave and converting it into a triangular wave. Switching between sawtooth and triangle wave can be easily configured.
+
+## Demo Video 
+
+https://github.com/user-attachments/assets/2c86b4a1-4571-4c39-a189-eb069c5ad8af
 
 ## What our tasks do
 
