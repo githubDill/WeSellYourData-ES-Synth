@@ -126,7 +126,6 @@ Total latency is less than the initation interval of "lowest priority task" so t
 
 ## Shared Data Structures & Synchronicity
 
-$\color{red}{\text{TODO:Make it extremely clear with comments on firmware that we have used atomic access for thread-safe synchronisation, the clear comments will net us marks }}$
 state all shared variables
 
 
