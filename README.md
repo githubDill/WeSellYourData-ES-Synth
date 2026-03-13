@@ -150,6 +150,8 @@ There should be no race conditions .
 
 ## Deadlock Analysis
 
+[deadlockDiagram.pdf](https://github.com/user-attachments/files/25974323/deadlockDiagram.pdf)
+
 Analysis of code to show if  a deadlock situation is possible
 This could be a task indefinitely waiting on a mutex
 [How to make recource allocation graph](https://www.youtube.com/watch?v=N0sVLZ6o9v4)
