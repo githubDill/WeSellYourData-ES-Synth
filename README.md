@@ -13,7 +13,9 @@ Our added feature to the synthesiser board is 24-note polyphony. Our firmware im
 ***Scankeys***
 
 Runs every 20ms. Scans 4×4 matrix, computes stable 12-bit key mask with two-scan debounce, updates knob3 state, writes localMask atomically, sends 'M' bitmask CAN message to msgOutQ.
+
 ***DisplayUpdate***
+
 Runs every 100ms. Reads inputs, rxMsg, masks, and knob3Rotation under mutex. Renders note names, volume, octave, and mask values to 128×32 OLED via U8g2.
 
 ***Decode***
