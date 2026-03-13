@@ -167,10 +167,34 @@ flowchart LR
 id1((ScanKeys))
 id2((DisplayUpdate))
 id3((SampleISR))
-id4(SysState)
-id1-.->id4
-id2-->id4
-id3-.->id4
+id4((Decode))
+id6((CAN TX))
+id12((CAN TX ISR))
+id7((CAN RX ISR))
+id5(audioState)
+id8(sysState)
+id9(msgOutQ)
+id10(msgInQ)
+id11(CAN TX Semaphore)
+id4-->id5
+
+id5-->id1
+id5-->id3
+
+id1-->id8
+id2-->id8
+id4-->id8
+
+id8-->id3
+
+id1-->id9
+id9-->id6
+
+id7-->id10
+id10-->id4
+
+id6-->id11
+id11-->id12
 ```
 ## Stack Allocation
 
