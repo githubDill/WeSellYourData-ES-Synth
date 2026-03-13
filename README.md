@@ -156,10 +156,6 @@ There should be no race conditions .
 
 ## Deadlock Analysis
 
-![image alt](deadlockdiagram.drawio.png)
-
-Analysis of code to show if  a deadlock situation is possible
-This could be a task indefinitely waiting on a mutex
 [How to make recource allocation graph](https://www.youtube.com/watch?v=N0sVLZ6o9v4)
 [How to make flowchart on markdown](https://mermaid.ai/open-source/syntax/flowchart.html#links-between-nodes)
 ```mermaid
@@ -196,6 +192,8 @@ id10-->id4
 id6-->id11
 id11-->id12
 ```
+
+This flowchart helps us identify possible deadlock situations. Arrow denote reading and write of variables by tasks. If a closed loop of arrows were to be found, then this would represent a possible deadlock scenario. The flowchart for our firmware shows no closed loop. Hence, there is no possiblity of deadlock.
 ## Stack Allocation
 
 |       Task         |Stack Allocated Under Normal Operation    |     Stack Allocated With Safety Margin    |          
