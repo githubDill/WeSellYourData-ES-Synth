@@ -9,18 +9,31 @@ This is **WeSellYourData**'s report for Embedded Systems.
 Our added feature to the synthesiser board is 24-note polyphony. Our firmware improves how smooth notes sound by taking the sawtooth wave and converting it into a triangular wave. Switching between sawtooth and triangle wave can be easily configured.
 
 ## What our tasks do
+
 ***Scankeys***
+
 Runs every 20ms. Scans 4×4 matrix, computes stable 12-bit key mask with two-scan debounce, updates knob3 state, writes localMask atomically, sends 'M' bitmask CAN message to msgOutQ.
 ***DisplayUpdate***
 Runs every 100ms. Reads inputs, rxMsg, masks, and knob3Rotation under mutex. Renders note names, volume, octave, and mask values to 128×32 OLED via U8g2.
+
 ***Decode***
+
 Blocked on msgInQ. On 'M' message, reconstructs 12-bit remote mask from bytes 2–3, computes octave-shifted step frequencies, writes atomically to remoteFreqs and remoteMask.
+
 ***CAN_TX***
+
+Blocked on msgOutQ. Dequeues a message, takes CAN_TX_Semaphore to prevent buffer overflow, transmits via CAN_TX().
+
 ***Sample ISR***
+
 Triggered by TIM1 at 22kHz. Reads local/remote masks atomically, advances phase accumulators, computes triangle wave samples, mixes and normalises by voice count, scales by knob3Rotation, outputs via analogWrite.
+
 ***CAN_RX_ISR***
+
 On CAN frame receipt, reads frame via CAN_RX() and posts to msgInQ via xQueueSendFromISR.
+
 ***CAN_TX_ISR***
+
 On transmission acknowledgment, gives CAN_TX_Semaphore via xSemaphoreGiveFromISR to unblock CAN_TX_Task.
 
 ## Our Definitions of Worst Case Situations
