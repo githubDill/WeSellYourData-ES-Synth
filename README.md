@@ -191,7 +191,7 @@ id6-->id11
 id11-->id12
 ```
 
-This flowchart helps us identify possible deadlock situations. Arrow denote reading and write of variables by tasks. If a closed loop of arrows were to be found, then this would represent a possible deadlock scenario. The flowchart for our firmware shows no closed loop. Hence, there is no possiblity of deadlock.
+This flowchart helps us identify possible deadlock situations. Arrows denote the reading and write of variables by tasks. If a closed loop of arrows were to be found, then this would represent a possible deadlock scenario. The flowchart for our firmware shows no closed loop. Hence, there is no possiblity of deadlock.
 ## Stack Allocation
 
 |       Task         |Stack Allocated Under Normal Operation    |     Stack Allocated With Safety Margin    |          
