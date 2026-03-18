@@ -119,7 +119,7 @@ What we assumed to get these intervals and times
 
 The lowest priority task with the longest initiation interval is DisplayUpdate with $\tau_n = 100ms$.
 
-$$Total Latency = 89.14121ms$$
+$$\text{Total Latency} = 89.14121ms$$
 
 $$89.14121ms < 100ms$$
 
