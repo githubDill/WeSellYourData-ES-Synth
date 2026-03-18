@@ -156,8 +156,6 @@ There should be no race conditions .
 
 ## Deadlock Analysis
 
-[How to make recource allocation graph](https://www.youtube.com/watch?v=N0sVLZ6o9v4)
-[How to make flowchart on markdown](https://mermaid.ai/open-source/syntax/flowchart.html#links-between-nodes)
 ```mermaid
 flowchart TB
 id1((ScanKeys))
