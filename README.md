@@ -138,7 +138,7 @@ Total latency is less than the initation interval of "lowest priority task" so t
 
 ## Shared Data Structures & Synchronicity
 
-state all shared variables
+
 
 
 |       Variable |Safe-access method used      |                
@@ -151,7 +151,7 @@ state all shared variables
 |remoteFreqs| atomic|
 
 
-There should be no race conditions .
+
 
 
 ## Deadlock Analysis
