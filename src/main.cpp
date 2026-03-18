@@ -7,7 +7,7 @@
 
 //Variables in this code use atomic access
 
-//#define MODE_BOTH
+//#define MODE_BOTH //this mode is for debugging CAN_init must be set to true
 #define MODE_SENDER
 //#define MODE_RECEIVER
 
